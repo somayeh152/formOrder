@@ -1,38 +1,95 @@
 .App {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+form {
+  width: 95%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+form label {
+  font-size: 1rem;
+  font-weight: bold;
+  display: block;
+  /* display: inline-block; */
+  text-align: right;
+  margin: 1.2rem 0.2rem 0.2rem;
+  /* margin: 0.25rem; */
+}
+
+input,
+select {
+  width: 100%;
+  /* width: 70%; */
+  display: inline-block;
+  padding: 0.65rem 0.5rem;
+  font-size: 0.8rem;
+  font-family: "Vazir-FD";
+  text-align: right;
+  border: 2px solid #4a5568;
+  border-radius: 10px;
+  outline: none;
+}
+/* 
+form .fieldHolder {
+  direction: rtl;
+  width: 100%;
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+} */
+
+input:focus,
+select:focus {
+  border-color: #4299e1;
+}
+
+button {
+  display: block;
+  margin: 2rem 0 1rem;
+  padding: 0.35rem 0.5rem;
+  background-color: #4299e1;
+  color: #1a202c;
+  border: none;
+  border-radius: 10px;
+  width: 100%;
+  height: 40px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  font-family: "Vazir-FD";
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.35;
+}
+
+input.input-error,
+select.input-error {
+  border-color: #fc8181;
+}
+
+.error {
+  color: #fc8181;
+  font-size: 0.75rem;
+  text-align: right;
+  margin-top: 0.25rem;
+  display: block;
+}
+
+.formError {
+  font-size: 1rem;
+  color: #fc8181;
+  font-weight: bold;
   text-align: center;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.formSuccess {
+  font-size: 1rem;
+  color: green;
+  font-weight: bold;
 }

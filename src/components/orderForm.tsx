@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 import { useFormik } from "formik";
 import { basicSchema } from "../schemas";
-import { useFetchProduct } from "../hooks/useFetchProduct";
+import { useProducts } from "../hooks/useProducts";
 import { useSendOrder } from "../hooks/useSendOrder";
 import { FormValues, ProductType } from "../types/ProductInterface/index";
 import LoadingSpinner from "../uikit/loading/LoadingSpinner";
@@ -18,32 +18,25 @@ const BasicForm: FC = () => {
     setFormError("مشکلی در ارسال فرم وجود دارد");
   };
 
-  const { data, isLoading } = useFetchProduct();
-  const { mutate } = useSendOrder(onSuccess, onError);
+  const productsList = useProducts();
+  const order = useSendOrder(onSuccess, onError);
 
   const onSubmit = (values: FormValues) => {
-    mutate(values);
+    order.mutate(values);
   };
 
-  const {
-    values,
-    errors,
-    touched,
-    isSubmitting,
-    handleBlur,
-    handleChange,
-    handleSubmit,
-  } = useFormik({
-    initialValues: {
-      firstName: "ddss",
-      lastName: "asdfd",
-      email: "jsdflk@jsdkfj.com",
-      mobile: "09117365985",
-      productId: "",
-    },
-    validationSchema: basicSchema,
-    onSubmit,
-  });
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
+    useFormik({
+      initialValues: {
+        firstName: "",
+        lastName: "",
+        email: "",
+        mobile: "",
+        productId: "",
+      },
+      validationSchema: basicSchema,
+      onSubmit,
+    });
 
   if (formSuccess) {
     return <p className="formSuccess">{formSuccess}</p>;
@@ -57,6 +50,7 @@ const BasicForm: FC = () => {
           id="firstName"
           name="firstName"
           type="text"
+          placeholder="علی"
           value={values.firstName}
           onChange={handleChange}
           onBlur={handleBlur}
@@ -72,6 +66,7 @@ const BasicForm: FC = () => {
           id="lastName"
           name="lastName"
           type="text"
+          placeholder="جوان"
           value={values.lastName}
           onChange={handleChange}
           onBlur={handleBlur}
@@ -87,6 +82,7 @@ const BasicForm: FC = () => {
           id="mobile"
           name="mobile"
           type="phone"
+          placeholder="09121315682"
           value={values.mobile}
           onChange={handleChange}
           onBlur={handleBlur}
@@ -102,6 +98,7 @@ const BasicForm: FC = () => {
           id="email"
           name="email"
           type="email"
+          placeholder="javan@gmail.com"
           value={values.email}
           onChange={handleChange}
           onBlur={handleBlur}
@@ -121,8 +118,10 @@ const BasicForm: FC = () => {
           onBlur={handleBlur}
           className={errors.productId && touched.productId ? "input-error" : ""}
         >
-          <option>انتخاب کنید</option>
-          {data?.data.map((product: ProductType) => {
+          <option>
+            {productsList.isLoading ? "...بارگزاری اطلاعات" : "انتخاب کنید"}
+          </option>
+          {productsList.data?.data.map((product: ProductType) => {
             return (
               <option key={product.id} value={product.id}>
                 {product.name}
@@ -134,8 +133,8 @@ const BasicForm: FC = () => {
           <p className="error">{errors.productId}</p>
         )}
       </div>
-      <button disabled={isSubmitting} type="submit">
-        {isSubmitting ? <LoadingSpinner /> : "ثبت"}
+      <button disabled={order.isLoading} type="submit">
+        {order.isLoading ? <LoadingSpinner /> : "ثبت"}
       </button>
       {formError ? <p className="formError">{formError}</p> : ""}
     </form>

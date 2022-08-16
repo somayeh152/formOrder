@@ -4,6 +4,7 @@ import { basicSchema } from "../schemas";
 import { useFetchProduct } from "../hooks/useFetchProduct";
 import { useSendOrder } from "../hooks/useSendOrder";
 import { FormValues, ProductType } from "../types/ProductInterface/index";
+import LoadingSpinner from "../uikit/loading/LoadingSpinner";
 
 const BasicForm: FC = () => {
   const [formSuccess, setFormSuccess] = useState<string>("");
@@ -17,7 +18,7 @@ const BasicForm: FC = () => {
     setFormError("مشکلی در ارسال فرم وجود دارد");
   };
 
-  const { data } = useFetchProduct();
+  const { data, isLoading } = useFetchProduct();
   const { mutate } = useSendOrder(onSuccess, onError);
 
   const onSubmit = (values: FormValues) => {
@@ -134,7 +135,7 @@ const BasicForm: FC = () => {
         )}
       </div>
       <button disabled={isSubmitting} type="submit">
-        ثبت
+        {isSubmitting ? <LoadingSpinner /> : "ثبت"}
       </button>
       {formError ? <p className="formError">{formError}</p> : ""}
     </form>

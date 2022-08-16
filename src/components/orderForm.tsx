@@ -38,6 +38,10 @@ const BasicForm: FC = () => {
       onSubmit,
     });
 
+  if (productsList.isLoading) {
+    return <LoadingSpinner />;
+  }
+
   if (formSuccess) {
     return <p className="formSuccess">{formSuccess}</p>;
   }
@@ -118,9 +122,7 @@ const BasicForm: FC = () => {
           onBlur={handleBlur}
           className={errors.productId && touched.productId ? "input-error" : ""}
         >
-          <option>
-            {productsList.isLoading ? "...بارگزاری اطلاعات" : "انتخاب کنید"}
-          </option>
+          <option>انتخاب کنید</option>
           {productsList.data?.data.map((product: ProductType) => {
             return (
               <option key={product.id} value={product.id}>

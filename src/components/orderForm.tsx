@@ -1,12 +1,13 @@
 import { FC, useState } from "react";
 import { useFormik } from "formik";
 import { basicSchema } from "../schemas";
-import { useFetchProduct, useSendOrder } from "./handelData";
-import { FormValues, ProductType } from "../ProductInterface/index";
+import { useFetchProduct } from "../hooks/useFetchProduct";
+import { useSendOrder } from "../hooks/useSendOrder";
+import { FormValues, ProductType } from "../types/ProductInterface/index";
 
 const BasicForm: FC = () => {
-  const [formSuccess, setFormSuccess] = useState<string | null>("");
-  const [formError, setFormError] = useState<string | null>("");
+  const [formSuccess, setFormSuccess] = useState<string>("");
+  const [formError, setFormError] = useState<string>("");
 
   const onSuccess = (): void => {
     setFormSuccess("سفارش با موفقیت ثبت شد");

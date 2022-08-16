@@ -4,27 +4,23 @@ import { basicSchema } from "../schemas";
 import { useFetchProduct, useSendOrder } from "./handelData";
 import { FormValues, ProductType } from "../ProductInterface/index";
 
-// const BasicForm = () => {
 const BasicForm: FC = () => {
-  const [formSuccess, setFormSuccess] = useState("");
-  const [formError, setFormError] = useState("");
+  const [formSuccess, setFormSuccess] = useState<string | null>("");
+  const [formError, setFormError] = useState<string | null>("");
 
-  const onSuccess = () => {
+  const onSuccess = (): void => {
     setFormSuccess("سفارش با موفقیت ثبت شد");
   };
 
-  const onError = () => {
+  const onError = (): void => {
     setFormError("مشکلی در ارسال فرم وجود دارد");
   };
 
   const { data } = useFetchProduct();
   const { mutate } = useSendOrder(onSuccess, onError);
 
-  // const onSubmit = async (values, actions) => {
-  const onSubmit = async (values: FormValues, actions: any) => {
+  const onSubmit = (values: FormValues) => {
     mutate(values);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    actions.resetForm();
   };
 
   const {
@@ -125,7 +121,6 @@ const BasicForm: FC = () => {
         >
           <option>انتخاب کنید</option>
           {data?.data.map((product: ProductType) => {
-            // {data?.data.map((product) => {
             return (
               <option key={product.id} value={product.id}>
                 {product.name}
